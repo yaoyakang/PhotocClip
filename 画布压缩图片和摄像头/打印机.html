@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="jquery-1.9.1.js"></script>
+</head>
+<style>
+    @media print{
+        *{
+            margin:0;
+            padding:0;
+        }
+        .print-box{
+            width: 100%;
+            padding:0;
+            margin:0;
+        }
+        h1{
+            width: 100%;
+            font-size: 2px;
+        }
+        h1,h2,h3,h4,h5{
+            font-weight: 100;
+            text-align: center;
+        }
+        ul{
+            margin-top:5px;
+            width: 90%;
+            margin: 0 auto;
+        }
+        ul,li{
+            width: 100%;
+            list-style: none;
+            list-style-type: none;
+            font-size: 1px;
+            position: relative;
+        }
+        i{
+            margin-left:5px;
+            font-style: normal;
+        }
+
+    }
+
+</style>
+<body>
+
+<div id="print-box">
+    <h1>锦悦至尊</h1>
+    <ul>
+        <li>会员卡号:<i>0000502</i></li>
+        <li>姓名:<i></i></li>
+        <li>日期:</li>
+        <li>授权人:<i>0000502</i></li>
+        <li>业务员:<i></i></li>
+        <li>支付方式:<i>0000502</i></li>
+        <li>充值金额:<i></i></li>
+        <li>充值金额</li>
+        <h2></h2>
+        <li>备注:<i>0000502</i></li>
+        <li>项目名称:<i>0000502</i></li>
+        <h3>精诚所至 万乘之尊</h3>
+        <h4>热线电话:</h4><h5>0357-6787222</h5>
+    </ul>
+</div>
+<script>
+    window.onload=function () {
+        bdhtml=window.document.body.innerHTML;
+        prnhtml=$("#print-box").html()
+        window.document.body.innerHTML=prnhtml; //把需要打印的指定内容赋给body.innerHTML
+        window.print();
+        window.document.body.innerHTML=bdhtml; // 最后还原页面
+        window.opener=null;
+				window.open('','_self');
+				window.close();
+    }
+
+</script>
+</body>
+</html>

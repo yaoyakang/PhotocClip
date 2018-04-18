@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<video id="video" width="640" height="480" autoplay></video>
+<button id="snap">拍照</button>
+<canvas id="canvas" width="640" height="480" style="display: none"></canvas>
+<img id="imgId" src="" />
+<script type="text/javascript">
+    window.onload = function () {
+        var canvas = document.getElementById('canvas');
+        var context = canvas.getContext('2d');
+        var video = document.getElementById('video');
+        // Get access to the camera!
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            // Not adding `{ audio: true }` since we only want video now
+            navigator.mediaDevices.getUserMedia({video: true}).then(function (stream) {
+                video.src = window.URL.createObjectURL(stream);
+                video.play();
+            });
+        }
+
+        document.getElementById("snap").addEventListener("click", function () {
+            context.drawImage(video, 0, 0, 640, 480);
+            var imgSrc =canvas.toDataURL("image/png");
+            document.getElementById("imgId").src = imgSrc;
+        });
+    }
+
+//    图片转base64编码
+//    var img = "微信图片_20180320164905.jpg";
+//    function getBase64Image(img) {
+//        var canvas = document.createElement("canvas");
+//        canvas.width = img.width;
+//        canvas.height = img.height;
+//        var ctx = canvas.getContext("2d");
+//        ctx.drawImage(img, 0, 0, img.width, img.height);
+//        var ext = img.src.substring(img.src.lastIndexOf(".")+1).toLowerCase();
+//        var dataURL = canvas.toDataURL("image/"+ext);
+//        return dataURL;
+//    }
+//
+//    var image = new Image();
+//    image.src = img;
+//    image.onload = function(){
+//        var base64 = getBase64Image(image);
+//        console.log(base64);
+//    }
+</script>
+<!--<video id="video" width="500" height="400" autoplay></video>-->
+<!--<canvas id="canvas" width="500" height="400"></canvas>-->
+<!--<button id="snap">拍照</button>-->
+<!--<script type="text/javascript">-->
+    <!--var context = canvas.getContext("2d");-->
+    <!--//当DOM树构建完成的时候就会执行DOMContentLoaded事件  -->
+    <!--window.addEventListener("DOMContentLoaded", function() {-->
+        <!--//获得Canvas对象  -->
+        <!--var canvas = document.getElementById("canvas");-->
+        <!--//获得video摄像头区域  -->
+        <!--var video = document.getElementById("video");-->
+        <!--var videoObj = {-->
+            <!--"video" : true-->
+        <!--};-->
+        <!--var errBack = function(error) {-->
+            <!--console.log("Video capture error: ", error.code);-->
+        <!--};-->
+        <!--//获得摄像头并显示到video区域  -->
+        <!--if (navigator.getUserMedia) { // Standard  -->
+            <!--navigator.getUserMedia(videoObj, function(stream) {-->
+                <!--video.src = stream;-->
+                <!--video.play();-->
+            <!--}, errBack);-->
+        <!--} else if (navigator.webkitGetUserMedia) { // WebKit-prefixed  -->
+            <!--navigator.webkitGetUserMedia(videoObj, function(stream) {-->
+                <!--video.src = window.webkitURL.createObjectURL(stream);-->
+                <!--video.play();-->
+            <!--}, errBack);-->
+        <!--} else if (navigator.mozGetUserMedia) { // Firefox-prefixed  -->
+            <!--navigator.mozGetUserMedia(videoObj, function(stream) {-->
+                <!--video.src = window.URL.createObjectURL(stream);-->
+                <!--video.play();-->
+            <!--}, errBack);-->
+        <!--}-->
+    <!--}, false);-->
+    <!--// 触发拍照动作  -->
+    <!--document.getElementById("snap").addEventListener("click", function() {-->
+        <!--context.drawImage(video, 0, 0, 640, 480);-->
+    <!--});-->
+<!--</script>-->
+</body>
+</html>

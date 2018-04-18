@@ -40,13 +40,45 @@
         }
         return url ;
     }
-    // 前端只需要给input file绑定这个change事件即可（上面两个方法不用管）huodong-msg为input class
+    //图片显示优化
+    function clacImgZoomParam(maxWidth, maxHeight, width, height) {
+        var param = {
+            top: 0,
+            left: 0,
+            width: width,
+            height: height
+        };
+        if(width > maxWidth || height > maxHeight) {
+            rateWidth = width / maxWidth;
+            rateHeight = height / maxHeight;
+
+            if(rateWidth > rateHeight) {
+                param.width = maxWidth;
+                param.height = Math.round(height / rateWidth);
+            } else {
+                param.width = Math.round(width / rateHeight);
+                param.height = maxHeight;
+            }
+        }
+        param.left = Math.round((maxWidth - param.width) / 2);
+        param.top = Math.round((maxHeight - param.height) / 2);
+        return param;
+    }
+    // 前端只需要给input file绑定这个change事件即可（上面两个方法不用管）
     $('#inputfile').bind('change',function(event){
         var imageUrl = getObjectURL($(this)[0].files[0]);
+        var img =$("#adding")
         convertImgToBase64(imageUrl, function(base64Img){
+            var MAXWIDTH = 90;
+            var MAXHEIGHT = 90;
             // base64Img为转好的base64,放在img src直接前台展示(<img src="data:image/jpg;base64,/9j/4QMZRXh...." />)
-            var urls=base64Img.split(",")[1];
-            $("#adding").attr("src",base64Img)
+//            var urls=base64Img.split(",")[1];
+            img.attr("src",base64Img)
+            img.onload = function() {img
+                var rect = clacImgZoomParam(MAXWIDTH, MAXHEIGHT, img.offsetWidth, img.offsetHeight);
+                img.width = rect.width;
+                img.height = rect.height;
+            }
         },'image/jpeg');
         event.preventDefault();
     });
